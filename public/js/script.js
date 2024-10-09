@@ -1,14 +1,13 @@
-// Initialize the Leaflet map
 $(document).ready(function () {
-  const map = L.map('map').setView([9.082, 8.6753], 6); // Centered on Nigeria (adjust coordinates as needed)
+  const map = L.map('map').setView([9.082, 8.6753], 6); // Center map on Nigeria
 
-  // Set up the base map layer
+  // Set up base map layer
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
-  // Define allowed locations as an array of objects
+  // Allowed locations
   const allowedLocations = [
     { name: 'Lagos', coords: [6.5244, 3.3792] },
     { name: 'Abuja', coords: [9.0765, 7.3986] },
@@ -17,43 +16,58 @@ $(document).ready(function () {
 
   let selectedLocation = null;
 
-  // Add markers for each allowed location
+  // Add markers and handle selection
   allowedLocations.forEach((location) => {
     const marker = L.marker(location.coords)
       .addTo(map)
       .bindPopup(location.name);
-
-    // Add click event listener to handle selection
     marker.on('click', () => {
-      // Update the selected location
-      selectedLocation = location;
-
-      // Display the selection in a popup
-      marker.openPopup();
-
-      // Enable the confirmation button
-      $('#confirm-location').prop('disabled', false);
+      selectedLocation = location.name;
+      $('#confirm-location').text(`${selectedLocation}`);
+      enableSubmitButton();
     });
   });
 
-  // Handle Confirm Selection button click
-  $('#confirm-location').click(() => {
-    if (selectedLocation) {
-      alert(`You have selected: ${selectedLocation.name}`);
-
-      // Submit the selected location to the server
-      $.ajax({
-        type: 'POST',
-        url: '/select-location', // Make sure this matches your route in the backend
-        data: { location: selectedLocation.name },
-        success: function (response) {
-          // Redirect to the next page or show a success message
-          window.location.href = '/fill-details';
-        },
-        error: function (error) {
-          console.error('Error selecting location:', error);
-        },
-      });
+  // Check if both form and location are filled to enable the submit button
+  function enableSubmitButton() {
+    const formValid =
+      $('#name').val() && $('#email').val() && $('#phone').val();
+    if (formValid && selectedLocation) {
+      $('#form-submit').prop('disabled', false); // Enable submit button
     }
+  }
+
+  // Attach keyup and change event to the form fields to enable submit button
+  $('#details-form input').on('keyup change', enableSubmitButton);
+
+  // Handle form submission
+  $('#details-form').submit(function (e) {
+    e.preventDefault();
+    const userDetails = {
+      name: $('#name').val(),
+      email: $('#email').val(),
+      phone: $('#phone').val(),
+      location: selectedLocation,
+    };
+
+    // Submit form data via AJAX
+    $.ajax({
+      type: 'POST',
+      url: '/submit-details', // Define this route on the backend
+      data: userDetails,
+      success: function (response) {
+        // Show coupon div and scroll to it
+        $('#coupon-div').removeClass('hidden');
+        $('html, body').animate(
+          {
+            scrollTop: $('#coupon-div').offset().top,
+          },
+          1000
+        );
+      },
+      error: function (error) {
+        console.error('Error submitting form:', error);
+      },
+    });
   });
 });
