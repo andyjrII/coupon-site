@@ -24,10 +24,11 @@ model User {
 }
 
 model Coupon {
-  id        Int      @id @default(autoincrement())
-  code      String   @unique
-  discount  Int
-  userId    Int      @unique
-  user      User     @relation(fields: [userId], references: [id])
-  createdAt DateTime @default(now())
+  id         Int      @id @default(autoincrement())
+  code       String   @unique
+  discount   Int
+  userId     Int      @unique
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+  expiration DateTime
 }
