@@ -30,11 +30,7 @@ li,
 figure,
 header,
 nav,
-section,
-article,
-aside,
-footer,
-figcaption {
+section {
   margin: 0;
   padding: 0;
   border: 0;
@@ -72,10 +68,7 @@ li {
 header,
 nav,
 section,
-article,
-aside,
-footer,
-hgroup {
+article {
   display: block;
 }
 
