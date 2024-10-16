@@ -64,10 +64,11 @@ $(document).ready(function () {
           alert('Details submitted successfully!');
 
           // Show coupon div and scroll to it
+          $('#coupon-title').removeClass('hidden');
           $('#coupon-div').removeClass('hidden');
           $('html, body').animate(
             {
-              scrollTop: $('#coupon-div').offset().top,
+              scrollTop: $('#coupon-title').offset().top,
             },
             1000
           );
