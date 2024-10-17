@@ -1,7 +1,9 @@
 $(document).ready(function () {
-  const map = L.map('map').setView([9.082, 8.6753], 6); // Center map on Nigeria
+  let selectedLocation = null;
+  let userId = null; // Store the userId after details submission
 
-  // Set up base map layer
+  // Initialize the map
+  const map = L.map('map').setView([9.082, 8.6753], 6); // Center map on Nigeria
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -14,27 +16,29 @@ $(document).ready(function () {
     { name: 'Port Harcourt', coords: [4.8156, 7.0498] },
   ];
 
-  let selectedLocation = null;
-  let userId = null; // Store the userId after details submission
-
   // Add markers and handle selection
   allowedLocations.forEach((location) => {
     const marker = L.marker(location.coords)
       .addTo(map)
       .bindPopup(location.name);
+
     marker.on('click', () => {
       selectedLocation = location.name;
-      $('#confirm-location').text(`${selectedLocation}`);
+      $('#location').val(selectedLocation);
+      $('#location').text(`${selectedLocation}`);
       enableSubmitButton();
     });
   });
 
-  // Check if both form and location are filled to enable the submit button
+  // Enable submit button if the form and location are filled
   function enableSubmitButton() {
     const formValid =
-      $('#name').val() && $('#email').val() && $('#phone').val();
-    if (formValid && selectedLocation) {
-      $('#form-submit').prop('disabled', false); // Enable submit button
+      $('#name').val() &&
+      $('#email').val() &&
+      $('#phone').val() &&
+      $('#location').val();
+    if (formValid) {
+      $('#form-submit').prop('disabled', false);
     }
   }
 
@@ -85,39 +89,64 @@ $(document).ready(function () {
     });
   });
 
-  // Handle door selection and coupon reveal
+  // Door Animation and Popup
   $('.door').on('click', function () {
     if (!userId) {
       alert('Please submit your details before selecting a door.');
       return;
     }
 
-    const doorNumber = $(this).data('door');
+    const $door = $(this); // Get the clicked door element
+    const doorNumber = $(this).data('door-id');
+    const img = $door.find('img'); // Get the image inside the door div
 
-    // Send request to backend to get the coupon details
-    $.ajax({
-      url: '/select-door',
-      type: 'POST',
-      data: { doorId: doorNumber, userId: parseInt(userId) },
-      success: function (response) {
-        if (response.success) {
-          const { couponCode, discount } = response;
+    // Zoom in effect
+    $door.addClass('clicked');
 
-          // Open the door visually
-          $('.door').removeClass('open').addClass('closed');
-          $(this).removeClass('closed').addClass('open');
+    // Change image to the door-opening gif
+    img.attr('src', '/images/door-opening.gif');
 
-          // Show coupon details in modal
-          $('#couponCode').text(couponCode);
-          $('#discountPercentage').text(discount);
-          $('#couponModal').modal('show');
-        } else {
-          alert(response.message);
-        }
-      }.bind(this), // Keep 'this' in the correct context
-      error: function () {
-        alert('An error occurred while selecting the door.');
-      },
-    });
+    // After 4 seconds (4000ms), switch to the door-opened image and show modal
+    setTimeout(function () {
+      img.attr('src', '/images/door-opened.png');
+
+      // Send request to backend to get the coupon details
+      $.ajax({
+        url: '/select-door',
+        type: 'POST',
+        data: { doorId: doorNumber, userId: parseInt(userId) },
+        success: function (response) {
+          if (response.success) {
+            const { couponCode, discount } = response;
+
+            // Show coupon details in modal
+            $('#coupon-code').text(couponCode);
+            $('#discount-percentage').text(discount);
+
+            // Display the modal
+            $('#coupon-modal').css('display', 'block');
+          } else {
+            alert(response.message);
+          }
+        },
+        error: function () {
+          alert('An error occurred while selecting the door.');
+        },
+      });
+    }, 4000); // 4 seconds for gif to finish
+  });
+
+  // Close the modal when the close button is clicked
+  $('.close').on('click', function () {
+    $('#coupon-modal').css('display', 'none');
+    $('#coupon-title').addClass('hidden');
+    $('#coupon-div').addClass('hidden');
+  });
+
+  // Close the modal when the OK button is clicked
+  $('#ok-button').on('click', function () {
+    $('#coupon-modal').css('display', 'none');
+    $('#coupon-title').addClass('hidden');
+    $('#coupon-div').addClass('hidden');
   });
 });

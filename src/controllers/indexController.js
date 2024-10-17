@@ -40,7 +40,7 @@ exports.postDetails = async (req, res) => {
   }
 };
 
-exports.postSelect = async (req, res) => {
+exports.postCoupon = async (req, res) => {
   const { userId, doorId } = req.body;
 
   // Convert userId to an integer
@@ -54,10 +54,10 @@ exports.postSelect = async (req, res) => {
 
   function getRandomPercentage() {
     const random = Math.random();
-    if (random < 0.7) {
-      return Math.floor(Math.random() * 20) + 1; // 70% chance for 1-20%
+    if (random < 0.9) {
+      return Math.floor(Math.random() * 10) + 1; // 90% chance for 1-20%
     } else {
-      return Math.floor(Math.random() * 30) + 21; // 30% chance for 21-50%
+      return Math.floor(Math.random() * 20) + 31; // 10% chance for 21-50%
     }
   }
 

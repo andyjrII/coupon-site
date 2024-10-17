@@ -69,7 +69,7 @@ body {
 }
 
 .section-heading {
-  margin-bottom: 70px;
+  margin-bottom: 30px;
 }
 
 .section-heading h2 {
@@ -189,16 +189,6 @@ Pre-loader Style
 
 /* 
 ---------------------------------------------
-Header Style
---------------------------------------------- 
-*/
-
-.visible {
-  display: inline !important;
-}
-
-/* 
----------------------------------------------
 Contact Style
 --------------------------------------------- 
 */
@@ -208,7 +198,7 @@ Contact Style
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center center;
-  padding: 100px 0px 250px 0px;
+  padding: 100px 0px 200px 0px;
   position: relative;
 }
 
@@ -226,21 +216,21 @@ Contact Style
   border-radius: 10px;
   margin-bottom: 8px;
   width: 100%;
-  height: 450px;
+  height: 460px;
 }
 
 .contact-content .contact-form {
   margin-left: 30px;
   border-radius: 10px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
-  padding: 35px 30px;
+  padding: 30px;
   background-color: #fff;
 }
 
 .contact-content .contact-form label {
   font-size: 15px;
   color: #3a3a3a;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 
 .contact-content .contact-form input {
@@ -249,7 +239,7 @@ Contact Style
   border-radius: 22px;
   background-color: #f6f6f6;
   border: none;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   font-size: 14px;
   padding: 0px 15px;
 }
@@ -267,7 +257,7 @@ Contact Style
 }
 
 .contact-content .contact-form button:hover {
-  background-color: #f35525;
+  background-color: #06a006;
 }
 
 .hidden {
@@ -281,32 +271,35 @@ Coupon Syles
 */
 
 .door {
-  width: 100%;
-  height: 150px;
-  background-color: #000232;
-  color: #fff;
-  font-size: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  border: 2px solid #ffd700;
-  transition: transform 0.5s ease;
   position: relative;
+  cursor: pointer;
 }
 
-.door.closed {
-  background-image: url('closed-door.png'); /* Image for closed door */
-  background-size: cover;
+.door img {
+  width: 80%;
+  transition: transform 0.4s ease;
 }
 
-.door.open {
-  background-image: url('open-door.png'); /* Image for open door */
-  background-size: cover;
+.door.clicked img {
+  transform: scale(0.8);
 }
 
-.door.open .coupon-info {
-  display: block;
+.modal {
+  display: none;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 /* 

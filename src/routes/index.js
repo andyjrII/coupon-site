@@ -9,6 +9,6 @@ router.get('/', (req, res) => {
 
 router.post('/submit-details', index.postDetails);
 
-router.post('/select-door', index.postSelect);
+router.post('/select-door', index.postCoupon);
 
 module.exports = router;

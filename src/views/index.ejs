@@ -7,10 +7,10 @@
     <!-- Preloader -->
     <%- include('partials/preloader') %>
 
-    <div class="contact section">
+    <div class="contact section" id="location-title">
       <div class="container">
         <div class="row">
-          <div class="col-lg-6 offset-lg-4">
+          <div class="col-lg-12">
             <div class="section-heading text-center">
               <h6>| Details Form</h6>
               <h2>Select Property Location & fill in your Details</h2>
@@ -23,15 +23,11 @@
     <div class="contact-content mb-5">
       <div class="container">
         <div class="row">
-          <div class="col-lg-7">
+          <div class="col-lg-8">
             <div id="map"></div>
-            <div class="row text-center">
-              <h6 id="confirm-location" class="text-primary">
-                Pick a Location
-              </h6>
-            </div>
+            <h2 class="text-center mb-3">Pick property location from Map</h2>
           </div>
-          <div class="col-lg-5">
+          <div class="col-lg-4">
             <form
               class="contact-form"
               id="details-form"
@@ -43,7 +39,7 @@
                   <fieldset>
                     <label for="name">Full Name</label>
                     <input
-                      type="name"
+                      type="text"
                       name="name"
                       id="name"
                       placeholder="Your Name..."
@@ -56,7 +52,7 @@
                   <fieldset>
                     <label for="email">Email Address</label>
                     <input
-                      type="text"
+                      type="email"
                       name="email"
                       id="email"
                       pattern="[^ @]*@[^ @]*"
@@ -79,6 +75,19 @@
                 </div>
                 <div class="col-lg-12">
                   <fieldset>
+                    <label for="location">Property Location</label>
+                    <input
+                      type="text"
+                      name="location"
+                      id="location"
+                      placeholder="Property Location..."
+                      readonly
+                      required
+                    />
+                  </fieldset>
+                </div>
+                <div class="col-lg-12">
+                  <fieldset>
                     <button type="submit" id="form-submit" class="btn-danger">
                       Submit Details
                     </button>
@@ -94,7 +103,7 @@
     <div class="contact section hidden" id="coupon-title">
       <div class="container">
         <div class="row">
-          <div class="col-lg-4 offset-lg-4">
+          <div class="col-lg-12">
             <div class="section-heading text-center">
               <h6>| Coupon</h6>
               <h2>Open a Door for your Coupon!</h2>
@@ -104,88 +113,101 @@
       </div>
     </div>
 
-    <div class="contact-content hidden mb-5" id="coupon-div">
+    <div class="contact-content mb-5 hidden" id="coupon-div">
       <div class="container">
         <div class="row">
           <div class="col-lg-12">
             <div id="coupon-doors" class="container text-center mt-5">
-              <div class="row">
+              <div class="row doors-container">
                 <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
-                  <div class="door" data-door="1">Door 1</div>
+                  <div class="door" data-door-id="1">
+                    <img src="/images/door-closed.png" class="door-image" />
+                  </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
-                  <div class="door" data-door="2">Door 2</div>
+                  <div class="door" data-door-id="2">
+                    <img src="/images/door-closed.png" class="door-image" />
+                  </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
-                  <div class="door" data-door="3">Door 3</div>
+                  <div class="door" data-door-id="3">
+                    <img src="/images/door-closed.png" class="door-image" />
+                  </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
-                  <div class="door" data-door="4">Door 4</div>
+                  <div class="door" data-door-id="4">
+                    <img src="/images/door-closed.png" class="door-image" />
+                  </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
-                  <div class="door" data-door="5">Door 5</div>
+                  <div class="door" data-door-id="5">
+                    <img src="/images/door-closed.png" class="door-image" />
+                  </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
-                  <div class="door" data-door="6">Door 6</div>
+                  <div class="door" data-door-id="6">
+                    <img src="/images/door-closed.png" class="door-image" />
+                  </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
-                  <div class="door" data-door="7">Door 7</div>
+                  <div class="door" data-door-id="7">
+                    <img src="/images/door-closed.png" class="door-image" />
+                  </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
-                  <div class="door" data-door="8">Door 8</div>
+                  <div class="door" data-door-id="8">
+                    <img src="/images/door-closed.png" class="door-image" />
+                  </div>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-6 mb-4">
-                  <div class="door" data-door="9">Door 9</div>
+                  <div class="door" data-door-id="9">
+                    <img src="/images/door-closed.png" class="door-image" />
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            <!-- Modal to show coupon -->
-            <div
-              id="couponModal"
-              class="modal fade"
-              tabindex="-1"
-              role="dialog"
-              aria-labelledby="couponModalLabel"
-              aria-hidden="true"
+    <!-- Coupon Modal -->
+    <div id="coupon-modal" class="modal" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Coupon Discount Code</h5>
+            <button
+              type="button"
+              class="btn-close close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <h2 id="coupon-title">Congratulations!</h2>
+            <p>
+              Your coupon code:
+              <span id="coupon-code" class="text-success"></span>
+            </p>
+            <p>
+              Discount:
+              <span id="discount-percentage" class="text-success"></span
+              ><span class="text-success">%</span>
+            </p>
+            <small class="text-danger"
+              >Make sure you write down your Coupon Code</small
             >
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="couponModalLabel">
-                      You've Won a Coupon!
-                    </h5>
-                    <button
-                      type="button"
-                      class="close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <p>
-                      <strong>Coupon Code:</strong>
-                      <span id="couponCode"></span>
-                    </p>
-                    <p>
-                      <strong>Discount:</strong>
-                      <span id="discountPercentage"></span>%
-                    </p>
-                  </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-bs-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              id="ok-button"
+              class="btn btn-success"
+              data-bs-dismiss="modal"
+            >
+              Ok
+            </button>
           </div>
         </div>
       </div>
